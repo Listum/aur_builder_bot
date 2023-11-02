@@ -34,7 +34,8 @@ ln -s /path/to/bot/repo /path/to/repo
 
 ### Docker
 
-#### В разработке
+ В разработке
+
 
 ## Использоание
 
@@ -47,9 +48,7 @@ ln -s /path/to/bot/repo /path/to/repo
 
 ## Сторонние библиотеки
 
-<ul>
-  <li>[Teloxide](https://crates.io/crates/teloxide)</li>
-  <li>[Git2](https://crates.io/crates/git2)</li>
-  <li>[Aur_rpc](https://crates.io/crates/aur-rpc)</li>
-  <li>[Glob](https://crates.io/crates/glob)</li>
-</ul> 
+- [Teloxide](https://crates.io/crates/teloxide)
+- [Git2](https://crates.io/crates/git2)
+- [Aur_rpc](https://crates.io/crates/aur-rpc)
+- [Glob](https://crates.io/crates/glob)
