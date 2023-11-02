@@ -48,7 +48,7 @@ ln -s /path/to/bot/repo /path/to/repo
 ## Сторонние библиотеки
 
 <ul>
-  <li>[Teloxide])https://crates.io/crates/teloxide)</li>
+  <li>[Teloxide](https://crates.io/crates/teloxide)</li>
   <li>[Git2](https://crates.io/crates/git2)</li>
   <li>[Aur_rpc](https://crates.io/crates/aur-rpc)</li>
   <li>[Glob](https://crates.io/crates/glob)</li>
