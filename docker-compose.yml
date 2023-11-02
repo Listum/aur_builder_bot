@@ -1,0 +1,9 @@
+services:
+  aur_builder_bot:
+    image: orudoca/aur_builder_bot:latest
+    container_name: AUR_Builder_Bot
+    volumes:
+      - /path/to/repo/:/opt/aur_builder/repo
+    restart: 'unless-stopped'
+    environment:
+      TELOXIDE_TOKEN: "<Your_token_here>"

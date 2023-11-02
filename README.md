@@ -34,8 +34,31 @@ ln -s /path/to/bot/repo /path/to/repo
 
 ### Docker
 
- В разработке
+**docker-cli**
+```bash
+docker run \
+ --name AUR_Builder_Bot \
+ --restart=unless-stopped \
+ -v /path/to/repo:/opt/aur_build/repo \
+ -e TELOXIDE_TOKEN="<Your_token_here>"
+ -d orudoca/aur_builder_bot:latest
+```
 
+**docker-compose**
+```yml
+services:
+  aur_builder_bot:
+    image: orudoca/aur_builder_bot:latest
+    container_name: AUR_Builder_Bot
+    volumes:
+      - /path/to/repo/:/opt/aur_builder/repo
+    restart: 'unless-stopped'
+    environment:
+      TELOXIDE_TOKEN: "<Your_token_here>"
+```
+```bash
+docker compose up -d
+```
 
 ## Использоание
 
