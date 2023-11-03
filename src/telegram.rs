@@ -2,15 +2,18 @@ use teloxide::{prelude::*, utils::command::BotCommands};
 use crate::build::{clone, copy, build, delete, repo_add};
 use crate::search;
 use std::env;
+
 pub async fn main(bot: Bot){
     Commands::repl(bot, answer).await;
 }
 
 #[derive(BotCommands, Clone)]
 #[command(rename_rule = "lowercase", description = "Commands:")]
-pub(crate) enum Commands{
+enum Commands{
+    #[command(description = "Build package.")]
     Upload(String),
-    Search(String)
+    #[command(description = "Search packages", parse_with = "split")]
+    Search{ pkg: String, num: u8 }
 }
 async fn answer(bot: Bot, msg: Message, cmd: Commands) -> ResponseResult<()> {
     match cmd {
@@ -26,14 +29,14 @@ async fn answer(bot: Bot, msg: Message, cmd: Commands) -> ResponseResult<()> {
             bot.send_message(msg.chat.id, clone).await?;
 
             env::set_current_dir(pkg_dir.clone())?;
-            let build = match build().await {
+            let build = match build(default_dir.clone()) {
                 Ok(..) => { format!("Builded") },
                 Err(e) => { format!("Build error: {}", e) }
             };
             bot.send_message(msg.chat.id, build).await?;
 
             env::set_current_dir(default_dir.clone())?;
-            let copy = match copy(pkg_dir.clone(), repo_dir.clone()).await {
+            let copy = match copy(pkg_dir.clone(), repo_dir.clone()) {
                 Ok(..) => { format!("Copied") },
                 Err(e) => { format!("Copy error: {}", e) }
             };
@@ -46,7 +49,7 @@ async fn answer(bot: Bot, msg: Message, cmd: Commands) -> ResponseResult<()> {
             bot.send_message(msg.chat.id, delete).await?;
 
             env::set_current_dir(repo_dir)?;
-            let repo_add = match repo_add().await {
+            let repo_add = match repo_add() {
                 Ok(..) => { format!("Added to repo") },
                 Err(e) => { format!("Error adding package to repository: {}", e) }
             };
@@ -54,8 +57,8 @@ async fn answer(bot: Bot, msg: Message, cmd: Commands) -> ResponseResult<()> {
             env::set_current_dir(default_dir)?;
 
         }
-        Commands::Search(pkg) => {
-            bot.send_message(msg.chat.id, search::search(pkg).await).await?;
+        Commands::Search{pkg, num} => {
+            bot.send_message(msg.chat.id, search::search(pkg, num).await).await?;
         }
     }
     Ok(())

@@ -29,7 +29,7 @@ $ $env:TELOXIDE_TOKEN=<Your token here>
 ```
 4. Создайте симлинк до вашего локального репозитория
 ```bash
-ln -s /path/to/bot/repo /path/to/repo
+ln -s /path/to/bot_dir/repo /path/to/repo
 ```
 
 ### Docker
@@ -63,7 +63,7 @@ docker compose up -d
 ## Использоание
 
 1. Поиск пакетов в AUR
-`/search <название пакета>`
+`/search <название пакета> <кол-во отображаемых пакетов 1-255>`
 
 2. Добавление пакетов в репозиторий
 `/upload <название пакета>`
