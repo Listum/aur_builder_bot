@@ -30,26 +30,27 @@ pub fn copy(dir: String, local_repo: String) -> Result<(), Box<dyn std::error::E
     Ok(())
 }
 
-pub fn build(default_dir: PathBuf) -> Result<(), Box<dyn std::error::Error>> {
+pub fn build() -> Result<(), Box<dyn std::error::Error>> {
     match std::env::var("GPGKEY") {
         Ok(value) => {
             Command::new("makepkg")
                 .arg("-s")
                 .arg("--sign")
-                .arg(format!("--key {}/{}",default_dir.as_os_str().to_str().unwrap() , value))
+                .arg(format!("--key={}", value))
                 .arg("--noconfirm")
                 .output()?;
-        }
+        },
         Err(_) => {
             Command::new("makepkg")
                 .arg("-s")
                 .arg("--noconfirm")
                 .output()?;
+
+        },
         }
+    Ok(())
     }
 
-    Ok(())
-}
 
 pub fn delete(dir: String) -> std::io::Result<()> {
     fs::remove_dir_all(dir)

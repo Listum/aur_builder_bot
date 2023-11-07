@@ -29,7 +29,7 @@ async fn answer(bot: Bot, msg: Message, cmd: Commands) -> ResponseResult<()> {
             bot.send_message(msg.chat.id, clone).await?;
 
             env::set_current_dir(pkg_dir.clone())?;
-            let build = match build(default_dir.clone()) {
+            let build = match build() {
                 Ok(..) => { format!("Builded") },
                 Err(e) => { format!("Build error: {}", e) }
             };
