@@ -17,7 +17,7 @@ $ export TELOXIDE_TOKEN=<Ваш токен>
 ```
 2. Добаьте GPG ключ для подписи (опционально)
   - ```$ gpg --list-keys --keyid-format=long```
-  - rsa4096/*D8DDA4AE70FAD33E* копируем ID ключа после rsa4096,3072..итд
+  - ```rsa4096/**D8DDA4AE70FAD33E**``` копируем ID ключа
   - ```$ export GPGKEY=<ID ключа>```
 3. Запустите бота
 ```bash
