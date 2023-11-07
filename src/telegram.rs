@@ -2,6 +2,7 @@ use teloxide::{prelude::*, utils::command::BotCommands};
 use crate::build::{clone, copy, build, delete, repo_add};
 use crate::search;
 use std::env;
+use crate::authorization::{add, check};
 
 pub async fn main(bot: Bot){
     Commands::repl(bot, answer).await;
@@ -13,11 +14,12 @@ enum Commands{
     #[command(description = "Build package.")]
     Upload(String),
     #[command(description = "Search packages", parse_with = "split")]
-    Search{ pkg: String, num: u8 }
+    Search{ pkg: String, num: u8 },
+    Auth(String)
 }
 async fn answer(bot: Bot, msg: Message, cmd: Commands) -> ResponseResult<()> {
     match cmd {
-        Commands::Upload(pkg) => {
+        Commands::Upload(pkg) => { if check(msg.chat.id.0) {
             let default_dir = env::current_dir()?;
             let pkg_dir = format!("pkgs/{}", pkg);
             let repo_dir = format!("repo/");
@@ -43,7 +45,7 @@ async fn answer(bot: Bot, msg: Message, cmd: Commands) -> ResponseResult<()> {
             bot.send_message(msg.chat.id, copy).await?;
 
             let delete = match delete(pkg_dir) {
-                Ok(..) => { format!("Sources deleted")},
+                Ok(..) => { format!("Sources deleted") },
                 Err(e) => { format!("Sources deletion error: {}", e) }
             };
             bot.send_message(msg.chat.id, delete).await?;
@@ -55,10 +57,25 @@ async fn answer(bot: Bot, msg: Message, cmd: Commands) -> ResponseResult<()> {
             };
             bot.send_message(msg.chat.id, repo_add).await?;
             env::set_current_dir(default_dir)?;
-
+        } else { bot.send_message(msg.chat.id, "This bot is private, motherfucker.").await?; }
         }
         Commands::Search{pkg, num} => {
             bot.send_message(msg.chat.id, search::search(pkg, num).await).await?;
+        }
+        Commands::Auth(pass) => {
+            match env::var("PASS") {
+                Ok(value) => {
+                    if pass == value {
+                        bot.send_message(msg.chat.id, format!("Authorized!")).await?;
+                        add(msg.chat.id.0).expect("add");
+                    } else {
+                        bot.send_message(msg.chat.id, format!("This bot is private, motherfucker.")).await?;
+                    }
+                },
+                Err(_) => {
+                    bot.send_message(msg.chat.id, format!("The password variable is not set.")).await?;
+                }
+            }
         }
     }
     Ok(())
