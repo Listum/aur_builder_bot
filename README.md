@@ -1,38 +1,39 @@
 # Aur Builder Bot
 
-## Описание
+## Description
 
-Реинкарнация мёртвого питон проекта на расте.
+Reincarnation of a dead python project on rust.
 
-Телеграм бот для сёрфинга/парсинга AUR и компиляции пакетов, а потом добавления их в личный репозиторий в виде бинарников.
+Telegram bot for surfing/parsing AUR and compiling packages and then adding them to a personal repository as binary.
 
-
-## Настройка
+## Setup
 
 ### Standalone
 
-1. Укажите токен бота телеграм
+1. Specify the token of the Telegram bot
 ```bash
-$ export TELOXIDE_TOKEN=<Ваш токен>
+$ export TELOXIDE_TOKEN=<Your token>
 ```
-2. Укажите пароль для авторизации
+2. Specify a password for authorization
 ```bash
-$ export PASS=<Пароль>
+$ export PASS=<Password>
 ```
-3. Добаьте GPG ключ для подписи (опционально)
+3. Add GPG key for signing (optional)
   - ```$ gpg --list-keys --keyid-format=long```
-  - ```rsa4096/D8DDA4AE70FAD33E``` копируем ID ключа (здесь **D8DDA4AE70FAD33E**)
+  - ```rsa4096/D8DDA4AE70FAD33E``` copy the key ID (here its: **D8DDA4AE70FAD33E**)
   - ```$ export GPGKEY=<ID ключа>```
-4. Запустите бота
+4. Start the bot
 ```bash
 ./aur_builder_bot
 ```
-5. Создайте симлинк до вашего локального репозитория
+5. Create a symlink to your local repository
 ```bash
 ln -s /path/to/bot_dir/repo /path/to/repo
 ```
 
 ### Docker
+
+GPG signing currently not working with docker setup
 
 **docker-cli**
 ```bash
@@ -62,14 +63,14 @@ docker compose up -d
 
 ## Использоание
 
-1. Поиск пакетов в AUR
-`/search <название пакета> <кол-во отображаемых пакетов 1-255>`
+1. Search for packages in AUR
+`/search <package name> <number of packets displayed 1-255>`
 
-2. Добавление пакетов в репозиторий
-`/upload <название пакета>`
+2. Adding packages to the repository
+`/upload <package name>`
 
 
-## Сторонние библиотеки
+## Third-party libraries
 
 - [Teloxide](https://crates.io/crates/teloxide)
 - [Git2](https://crates.io/crates/git2)
