@@ -61,7 +61,7 @@ services:
 docker compose up -d
 ```
 
-## Использоание
+## Usage
 
 1. Search for packages in AUR
 `/search <package name> <number of packets displayed 1-255>`
